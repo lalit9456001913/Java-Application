@@ -20,7 +20,7 @@ public class AddressService {
         return addressRepository.save(address);
     }
 
-    public List<Address> getUserAddress(int userId){
+    public List<Address> getAddresses(int userId){
         return addressRepository.findByUserId(userId);
     }
 }

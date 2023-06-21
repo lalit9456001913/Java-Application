@@ -1,6 +1,7 @@
 package com.example.Address.entity;
 
 import com.example.users.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +11,8 @@ public class Address {
     private  int id;
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     private User user;
 
     @Override

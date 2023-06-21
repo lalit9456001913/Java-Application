@@ -17,8 +17,8 @@ public class AddressController {
         return addressService.createAddress(address,userId);
     }
     @GetMapping("/users/{userId}/address")
-    public List<Address> getUserAddress(@PathVariable(name = "userId") int userId){
-        return addressService.getUserAddress(userId);
+    public List<Address> getUserAddress(@PathVariable(name = "userId") int userId) {
+        return addressService.getAddresses(userId);
     }
 
 }

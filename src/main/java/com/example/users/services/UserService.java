@@ -28,6 +28,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User getUser(int userId){
+        return userRepository.findById(userId);
+    }
     public String deleteUser(int id){
         userRepository.deleteById(id);
         return "user deleted successfully";

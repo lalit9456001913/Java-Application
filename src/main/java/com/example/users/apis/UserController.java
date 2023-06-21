@@ -20,8 +20,12 @@ public class UserController {
         return userService.createUser(user);
      }
 
+     @GetMapping("/users/{userId}")
+     public User getUser(@PathVariable(name = "userId") int userId){
+        return userService.getUser(userId);
+     }
      @GetMapping("/users")
-     public List<User> getUser(){
+     public List<User> getUsers(){
         System.out.println("success");
          return userService.getAllUsers();
      }

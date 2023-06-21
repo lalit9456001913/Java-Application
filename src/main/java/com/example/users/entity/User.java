@@ -1,12 +1,18 @@
 package com.example.users.entity;
 
+import com.example.Address.entity.Address;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 public class User {
     @Id
@@ -87,13 +93,18 @@ public class User {
 
     private int countryCode;
 
-
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Instant createdAt;
-
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     private Instant updatedAt;
 
     private String name;
 
     private String emailId;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    private List<Address> addressList;
 
 }

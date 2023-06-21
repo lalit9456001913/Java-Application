@@ -1,35 +1,26 @@
-package com.example.adhar.entity;
+package com.example.Address.entity;
 
-
-import jakarta.persistence.*;
 import com.example.users.entity.User;
+import jakarta.persistence.*;
+
 @Entity
-
-public class Adhar {
-
-
+public class Address {
     @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private  int id;
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @Override
     public String toString() {
-        return "Adhar{" +
+        return "Address{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", adharNumber='" + adharNumber + '\'' +
                 ", user=" + user +
                 '}';
     }
-
-    private String adharNumber;
-
-    @OneToOne
-    @JoinColumn(name="user_id")
-    private User user;
-
 
     public int getId() {
         return id;
@@ -47,14 +38,6 @@ public class Adhar {
         this.name = name;
     }
 
-    public String getAdharNumber() {
-        return adharNumber;
-    }
-
-    public void setAdharNumber(String adharNumber) {
-        this.adharNumber = adharNumber;
-    }
-
     public User getUser() {
         return user;
     }
@@ -63,4 +46,3 @@ public class Adhar {
         this.user = user;
     }
 }
-

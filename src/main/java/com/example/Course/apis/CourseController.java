@@ -10,88 +10,53 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class CourseController {
+//    @Autowired
+    User user;
+
+//    @Autowired
+    Course course;
     @Autowired
     UserRepository userRepository;
     @Autowired
     CourseRepository courseRepository;
     @PostMapping("/users/{userId}/course")
-    public Course createCourse(@RequestBody Course course, @PathVariable(name="userId") int userId){
-        User user=userRepository.findById(userId);
-//        Set<User> set=new Set<User>() {
-//            @Override
-//            public int size() {
-//                return 0;
-//            }
-//
-//            @Override
-//            public boolean isEmpty() {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean contains(Object o) {
-//                return false;
-//            }
-//
-//            @Override
-//            public Iterator<User> iterator() {
-//                return null;
-//            }
-//
-//            @Override
-//            public Object[] toArray() {
-//                return new Object[0];
-//            }
-//
-//            @Override
-//            public <T> T[] toArray(T[] ts) {
-//                return null;
-//            }
-//
-//            @Override
-//            public boolean add(User user) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean remove(Object o) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean containsAll(Collection<?> collection) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean addAll(Collection<? extends User> collection) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean retainAll(Collection<?> collection) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean removeAll(Collection<?> collection) {
-//                return false;
-//            }
-//
-//            @Override
-//            public void clear() {
-//
-//            }
-//        }
-//        set.add(user);
-//        course.setUsers(set);
-        return courseRepository.save(course);
+    public String createCourse(@PathVariable(name="userId") int userId){
+        User user1=new User();
+        user1.setId(4);
+        user1.setName("amit");
+
+        User user2=new User();
+        user2.setId(5);
+        user2.setName("saurabh");
+
+
+        Course course1=new Course();
+        course1.setId(41);
+        course1.setName("btech");
+
+        Course course2=new Course();
+        course2.setId(42);
+        course2.setName("mba");
+
+        Set<User> set1 = new HashSet<User>();
+        Set<Course> set2 = new HashSet<Course> ();
+        set1.addAll(userRepository.findAll());
+        set2.addAll(courseRepository.findAll());
+        course1.setUsers(set1);
+        course2.setUsers(set1);
+        user1.setLikedCourses(set2);
+        user2.setLikedCourses(set2);
+        courseRepository.save(course1);
+        courseRepository.save(course2);
+        userRepository.save(user1);
+        userRepository.save(user2);
+//        System.out.println(user);
+//        course.addUser(user);
+        return "created";
     }
 
 }

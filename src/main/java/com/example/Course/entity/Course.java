@@ -43,6 +43,7 @@ public class Course {
         this.users = users;
     }
 
+
     private String name;
 
     @ManyToMany()

@@ -2,6 +2,7 @@ package com.example.users.entity;
 
 import com.example.Address.entity.Address;
 import com.example.Course.entity.Course;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -105,9 +106,26 @@ public class User {
     private String emailId;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    @JsonIgnore
     private List<Address> addressList;
 
-    @ManyToMany
+    public List<Address> getAddressList() {
+        return addressList;
+    }
+
+    public void setAddressList(List<Address> addressList) {
+        this.addressList = addressList;
+    }
+
+    public Set<Course> getLikedCourses() {
+        return likedCourses;
+    }
+
+    public void setLikedCourses(Set<Course> likedCourses) {
+        this.likedCourses = likedCourses;
+    }
+
+    @ManyToMany()
     @JoinTable(
             name = "course_like",
             joinColumns = @JoinColumn(name = "user_id"),

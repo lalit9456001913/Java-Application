@@ -1,26 +1,23 @@
-package com.example.Address.entity;
+package com.example.Course.entity;
 
 import com.example.users.entity.User;
 import jakarta.persistence.*;
 
+import java.util.Set;
 @Entity
-public class Address {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  int id;
-    private String name;
-
-    @ManyToOne()
-    private User user;
-
+public class Course {
     @Override
     public String toString() {
-        return "Address{" +
+        return "Course{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", user=" + user +
+                ", users=" + users +
                 '}';
     }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    int id;
 
     public int getId() {
         return id;
@@ -38,11 +35,16 @@ public class Address {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
+
+    private String name;
+
+    @ManyToMany()
+    Set<User> users;
 }

@@ -1,15 +1,15 @@
 package com.example.users.entity;
 
 import com.example.Address.entity.Address;
+import com.example.Course.entity.Course;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -106,5 +106,13 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
     private List<Address> addressList;
+
+    @ManyToMany
+    @JoinTable(
+            name = "course_like",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    Set<Course> likedCourses;
+
 
 }

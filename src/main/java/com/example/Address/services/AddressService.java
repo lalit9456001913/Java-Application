@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.users.entity.User;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AddressService {
@@ -14,13 +15,13 @@ public class AddressService {
     AddressRepository addressRepository;
     @Autowired
     UserRepository userRepository;
-    public Address createAddress(Address address,int userId){
+    public Address createAddress(Address address, UUID userId){
         User user = userRepository.findById(userId);
         address.setUser(user);
         return addressRepository.save(address);
     }
 
-    public List<Address> getAddresses(int userId){
+    public List<Address> getAddresses(UUID userId){
         return addressRepository.findByUserId(userId);
     }
 }

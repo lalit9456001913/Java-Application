@@ -1,77 +1,46 @@
 package com.example.users.entity;
 
-import com.example.Address.entity.Address;
 import com.example.Course.entity.Course;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", mobileNumber='" + mobileNumber + '\'' +
-                ", countryCode=" + countryCode +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 ", name='" + name + '\'' +
-                ", emailId='" + emailId + '\'' +
+                ", likedCourses=" + likedCourses +
                 '}';
     }
 
+    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
 
-    public int getId() {
+    private String name;
+
+    // Other user attributes...
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public int getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(int countryCode) {
-        this.countryCode = countryCode;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public String getName() {
@@ -82,41 +51,6 @@ public class User {
         this.name = name;
     }
 
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
-
-    private String mobileNumber;
-
-    private int countryCode;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Instant createdAt;
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    private String name;
-
-    private String emailId;
-
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
-    @JsonIgnore
-    private List<Address> addressList;
-
-    public List<Address> getAddressList() {
-        return addressList;
-    }
-
-    public void setAddressList(List<Address> addressList) {
-        this.addressList = addressList;
-    }
-
     public Set<Course> getLikedCourses() {
         return likedCourses;
     }
@@ -125,12 +59,22 @@ public class User {
         this.likedCourses = likedCourses;
     }
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
-            name = "course_like",
+            name = "user_course",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    Set<Course> likedCourses;
+    private Set<Course> likedCourses = new HashSet<>();
 
+    // Constructors, getters, setters...
 
+    public void addCourse(Course course) {
+        likedCourses.add(course);
+        course.getUsers().add(this);
+    }
+
+    public void removeCourse(Course course) {
+        likedCourses.remove(course);
+        course.getUsers().remove(this);
+    }
 }

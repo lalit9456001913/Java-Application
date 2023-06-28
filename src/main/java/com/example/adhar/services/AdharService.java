@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Component
@@ -20,7 +21,7 @@ public class AdharService {
          this.adharRepository=adharRepository;
      }
 
-    public  Adhar createUserAdhar(Adhar adhar,int userId){
+    public  Adhar createUserAdhar(Adhar adhar,UUID userId){
          User user= userRepository.findById(userId);
          System.out.println(user);
          adhar.setUser(user);

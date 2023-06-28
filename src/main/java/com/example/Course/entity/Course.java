@@ -1,29 +1,41 @@
 package com.example.Course.entity;
 
 import com.example.users.entity.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
+
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Course {
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", users=" + users +
-                '}';
+    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
+
+    private String name;
+
+    // Other course attributes...
+
+    @ManyToMany(mappedBy = "likedCourses")
+    private Set<User> users = new HashSet<>();
+
+    // Constructors, getters, setters...
+
+    public void addUser(User user) {
+        users.add(user);
+        user.getLikedCourses().add(this);
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -43,9 +55,8 @@ public class Course {
         this.users = users;
     }
 
-
-    private String name;
-
-    @ManyToMany()
-    Set<User> users;
+    public void removeUser(User user) {
+        users.remove(user);
+        user.getLikedCourses().remove(this);
+    }
 }

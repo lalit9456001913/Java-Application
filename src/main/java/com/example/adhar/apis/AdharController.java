@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class AdharController {
@@ -12,7 +13,7 @@ public class AdharController {
     AdharService adharService;
 
     @PostMapping("/users/{userId}/adhar")
-    public Adhar createUserAdhar(@RequestBody  Adhar adhar,@PathVariable(name = "userId") int userId){
+    public Adhar createUserAdhar(@RequestBody  Adhar adhar,@PathVariable(name = "userId") UUID userId){
         System.out.println(adhar);
         return adharService.createUserAdhar(adhar,userId);
     }

@@ -7,56 +7,62 @@ import com.example.users.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
 @RestController
 public class CourseController {
-//    @Autowired
+    @Autowired(required = false)
     User user;
 
-//    @Autowired
+    @Autowired(required = false)
     Course course;
     @Autowired
     UserRepository userRepository;
     @Autowired
     CourseRepository courseRepository;
+
     @PostMapping("/users/{userId}/course")
-    public String createCourse(@PathVariable(name="userId") int userId){
-        User user1=new User();
-        user1.setId(4);
-        user1.setName("amit");
+    public String createCourse(@PathVariable(name = "userId") int userId) {
+        User user = new User();
+        user.setId(UUID.randomUUID());
+        user.setName("User" + userId);
 
-        User user2=new User();
-        user2.setId(5);
-        user2.setName("saurabh");
+        Course course = new Course();
+        course.setId(UUID.randomUUID());
+        course.setName("Course" + 1);
+
+        user.setLikedCourses(new HashSet<>());
+        course.setUsers(new HashSet<>());
+
+        user.getLikedCourses().add(course);
+        course.getUsers().add(user);
+        System.out.println(user);
+        userRepository.save(user);
+
+        return "Course added to User successfully.";
+
+//            User user=new User();
+//            user.setId(1);
+//            user.setName("lalit");
+////            userRepository.save(user);
+//
+//
+//           Course course1=new Course();
+//           course1.setId(1);
+//           course1.setName("btech");
+//           user.getLikedCourses().add(course1);
+////        user.addCourse(course1);
+//        course1.getUsers().add(user);
+//        course1.addUser(user);
 
 
-        Course course1=new Course();
-        course1.setId(41);
-        course1.setName("btech");
-
-        Course course2=new Course();
-        course2.setId(42);
-        course2.setName("mba");
-
-        Set<User> set1 = new HashSet<User>();
-        Set<Course> set2 = new HashSet<Course> ();
-        set1.addAll(userRepository.findAll());
-        set2.addAll(courseRepository.findAll());
-        course1.setUsers(set1);
-        course2.setUsers(set1);
-        user1.setLikedCourses(set2);
-        user2.setLikedCourses(set2);
-        courseRepository.save(course1);
-        courseRepository.save(course2);
-        userRepository.save(user1);
-        userRepository.save(user2);
-//        System.out.println(user);
-//        course.addUser(user);
-        return "created";
+//        System.out.println("======user========"+user);
+//        System.out.println("======course========"+course1);
+//        courseRepository.save(course1);
+//        userRepository.save(user);
+//        return "created";
     }
 
 }

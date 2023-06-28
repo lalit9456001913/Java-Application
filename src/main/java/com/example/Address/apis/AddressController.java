@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class AddressController {
@@ -13,11 +14,11 @@ public class AddressController {
     AddressService addressService;
 
     @PostMapping("/users/{userId}/address")
-    public Address createAddress(@RequestBody Address address, @PathVariable(name="userId") int userId){
+    public Address createAddress(@RequestBody Address address, @PathVariable(name="userId") UUID userId){
         return addressService.createAddress(address,userId);
     }
     @GetMapping("/users/{userId}/address")
-    public List<Address> getUserAddress(@PathVariable(name = "userId") int userId) {
+    public List<Address> getUserAddress(@PathVariable(name = "userId") UUID userId) {
         return addressService.getAddresses(userId);
     }
 

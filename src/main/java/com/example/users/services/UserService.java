@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -28,7 +29,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUser(int userId){
+    public User getUser(UUID userId){
         return userRepository.findById(userId);
     }
     public String deleteUser(int id){
